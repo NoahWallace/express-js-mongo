@@ -1,6 +1,6 @@
 let express = require('express'),
 	router = express.Router(),
-	db = require("../Components/mongodb").Db;
+	db = require("../Services/mongodb").Db;
 
 
 function UsersRoutes() {

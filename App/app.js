@@ -1,6 +1,6 @@
 const express = require('express'),
-	initializeApp= require('./Components/application'),
-	mongo = require('./Components/mongodb'),
+	initializeApp= require('./Services/application'),
+	mongo = require('./Services/mongodb'),
 	cors = require('cors');
 
 let app = express(),
