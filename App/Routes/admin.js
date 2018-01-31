@@ -1,20 +1,12 @@
 let express = require('express'),
 	router = express.Router(),
-	db = require("../Services/mongodb").Db;
+	controllers=require('../Controllers')
 
-
+let collections=new controllers.collections();
+let {getCollectionNames,getCollections} = collections;
 function UsersRoutes() {
 	//app.use("/users",router);
-	router.get("/collections", (req, res, next) => {
-		let cursor = db().listCollections();
-		cursor.toArray().then((c) => {
-			let collections = c.map((col) => col.name)
-			res.json(collections)
-		}).catch((e) => {
-			next(e)
-		});
-
-	});
+	router.get("/collections", getCollectionNames);
 	return router
 }
 

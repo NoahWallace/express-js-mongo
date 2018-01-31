@@ -1,10 +1,10 @@
 const express = require('express'),
 	initializeApp= require('./Services/application'),
-	mongo = require('./Services/mongodb'),
 	cors = require('cors');
 
 let app = express(),
 	router= express.Router();
+
 
 let routes= require('./Routes');
 /*

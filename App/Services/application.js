@@ -5,7 +5,7 @@ let mongo = require('./mongodb.js'),
 	server;
 
 function initializeApp(app) {
-	mongo.init().then(({client}) => {
+	mongo.init().then((state) => {
 		server = http.createServer(app).listen(settings.app.port, () => {
 			console.log(`App is running on port ${settings.app.port}`)
 		});
@@ -19,9 +19,9 @@ function initializeApp(app) {
 }
 
 function closeApp() {
-	let client = mongo.Client();
+	let client = mongo.client();
 	if (client && client !== null) {
-		mongo.Client().close()
+		mongo.client().close()
 			.then(() => {
 				console.log("MongoClosed Successfully");
 				process.exit()

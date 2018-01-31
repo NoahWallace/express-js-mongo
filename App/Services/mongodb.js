@@ -1,46 +1,34 @@
 const MongoClient = require('mongodb').MongoClient,
 	settings = require('./settings')();
 
-let client;
+let state={
+	db:null,
+	client:null
+}
 
 function init() {
 	return new Promise((resolve, reject) => {
-		if (client === undefined) {
+		if (state.client === null) {
 			console.log(`Starting the ${process.env.NODE_ENV} Environment`);
-			MongoClient.connect(settings.mongo.server_uri, (e, mClient) => {
+			MongoClient.connect(settings.mongo.server_uri, (e, Client) => {
 				if (e) {
 					reject(e)
 				}
 				else {
 					console.log("connected to mongo");
-					client = mClient;
-					db = mClient.db(settings.mongo.database);
-					resolve({client, db})
+					state.client = Client;
+					state.db = Client.db(settings.mongo.database);
+					resolve(state)
 				}
 			})
 		}
 		else {
-			resolve({client, db})
+			resolve(state)
 		}
 	})
 }
 
-function getDb(name = settings.mongo.database) {
-	if (client) {
-		return client.db(name)
-	}
-	return null;
-}
 
-function getClient() {
-	if (client) {
-		return client
-	}
-	return null;
-}
-
-module.exports = {
-	init,
-	Db: getDb,
-	Client: getClient
-}
+exports.init=init;
+exports.db=()=>state.db;
+exports.client=()=>state.client;
